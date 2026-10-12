@@ -19,6 +19,7 @@
   --bg: #f4f5f8; --surface: #ffffff; --surface-2: #f1f3f7; --border: #e3e6ec; --border-strong: #cfd5df;
   --text: #0f172a; --muted: #5b6577; --faint: #8a93a3;
   --accent: #1f3fbf; --accent-hover: #1a35a3; --accent-soft: #e9eefc; --accent-mid: #a9b9ef; --on-accent: #ffffff;
+  --plan: #8b5cf6; --plan-soft: #f1ebfe; --plan-mid: #c4b5fd; --plan-text: #6d28d9;
   --green: #15803d; --green-fill: #16a34a; --green-soft: #e8f7ee;
   --orange: #c2410c; --orange-fill: #ea580c; --orange-soft: #fff1e6;
   --red: #b91c1c; --red-fill: #dc2626; --red-soft: #fdecec;
@@ -34,6 +35,7 @@
     --bg: #0b0f17; --surface: #121826; --surface-2: #19202f; --border: #232c3d; --border-strong: #334057;
     --text: #e7ebf3; --muted: #9aa4b6; --faint: #6c768a;
     --accent: #7b96ff; --accent-hover: #93a9ff; --accent-soft: #1b2545; --accent-mid: #3b4d8c; --on-accent: #0b0f17;
+    --plan: #a78bfa; --plan-soft: #2a1f4a; --plan-mid: #6d55b8; --plan-text: #c4b5fd;
     --green: #4ade80; --green-fill: #22c55e; --green-soft: #0f2a1b;
     --orange: #fb923c; --orange-fill: #f97316; --orange-soft: #2e1a0b;
     --red: #f87171; --red-fill: #ef4444; --red-soft: #301417;
@@ -46,6 +48,7 @@
   --bg: #0b0f17; --surface: #121826; --surface-2: #19202f; --border: #232c3d; --border-strong: #334057;
   --text: #e7ebf3; --muted: #9aa4b6; --faint: #6c768a;
   --accent: #7b96ff; --accent-hover: #93a9ff; --accent-soft: #1b2545; --accent-mid: #3b4d8c; --on-accent: #0b0f17;
+  --plan: #a78bfa; --plan-soft: #2a1f4a; --plan-mid: #6d55b8; --plan-text: #c4b5fd;
   --green: #4ade80; --green-fill: #22c55e; --green-soft: #0f2a1b;
   --orange: #fb923c; --orange-fill: #f97316; --orange-soft: #2e1a0b;
   --red: #f87171; --red-fill: #ef4444; --red-soft: #301417;
@@ -218,13 +221,13 @@ input[type="date"] { min-width: 0; }
 .tl svg { display: block; width: 100%; height: 46px; }
 .tl rect.d { fill: var(--track); }
 .tl rect.d.stay { fill: var(--accent); }
-.tl rect.d.plan { fill: var(--accent-mid); }
+.tl rect.d.plan { fill: var(--plan); }
 .tl rect.d.reached { fill: var(--orange-fill); }
 .tl rect.d.over { fill: var(--red-fill); }
 .tl rect.win { fill: var(--accent-soft); }
 .tl line.today { stroke: var(--text); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
 .tl-months { position: relative; height: 18px; font-size: 11px; color: var(--faint); margin-top: 4px; }
-.tl-months span { position: absolute; white-space: nowrap; padding-left: 4px; border-left: 1px solid var(--border-strong); line-height: 1.2; }
+.tl-months span { position: absolute; white-space: nowrap; overflow: hidden; text-overflow: clip; padding-left: 4px; border-left: 1px solid var(--border-strong); line-height: 1.2; box-sizing: border-box; }
 .tl-today { position: absolute; top: -20px; transform: translateX(-50%); font-size: 11px; font-weight: 700; background: var(--text); color: var(--bg); padding: 1px 7px; border-radius: 999px; white-space: nowrap; }
 .tl-wrap { padding-top: 22px; direction: ltr; }
 /* Rechts-nach-links-Sprachen */
@@ -234,7 +237,7 @@ input[type="date"] { min-width: 0; }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; font-size: 12.5px; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
-.sw.stay { background: var(--accent); } .sw.plan { background: var(--accent-mid); }
+.sw.stay { background: var(--accent); } .sw.plan { background: var(--plan); }
 .sw.reached { background: var(--orange-fill); } .sw.over { background: var(--red-fill); }
 .sw.win { background: var(--accent-soft); border: 1px solid var(--accent-mid); }
 .sw.today { background: transparent; border: 2px solid var(--text); border-radius: 50%; }
@@ -257,7 +260,7 @@ input[type="date"] { min-width: 0; }
 .pill { font-size: 11.5px; font-weight: 700; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
 .pill.past { background: var(--surface-2); color: var(--muted); }
 .pill.current { background: var(--accent); color: var(--on-accent); }
-.pill.planned { background: var(--accent-soft); color: var(--accent); }
+.pill.planned { background: var(--plan-soft); color: var(--plan-text); }
 .pill.person { background: transparent; border: 1px solid var(--border-strong); color: var(--muted); max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
 .pill.warn { background: var(--orange-soft); color: var(--orange); }
 .trip-dates { font-size: 14px; }
@@ -283,7 +286,7 @@ input[type="date"] { min-width: 0; }
 .day:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .day.blank { pointer-events: none; }
 .day.stay { background: var(--accent); color: var(--on-accent); }
-.day.plan { background: var(--accent-soft); color: var(--accent); box-shadow: inset 0 0 0 1.5px var(--accent-mid); }
+.day.plan { background: var(--plan-soft); color: var(--plan-text); box-shadow: inset 0 0 0 1.5px var(--plan-mid); }
 .day.reached { background: var(--orange-fill); color: #fff; box-shadow: none; }
 .day.over { background: var(--red-fill); color: #fff; box-shadow: none; }
 .day.today::after { content: ""; position: absolute; inset: -2px; border-radius: 11px; border: 2px solid var(--text); pointer-events: none; }
@@ -363,12 +366,12 @@ input[type="date"] { min-width: 0; }
 .p-table .num { text-align: end; white-space: nowrap; }
 .p-table tfoot td { font-weight: 800; border-top: 1.5px solid var(--p-text); border-bottom: 0; background: none !important; }
 .p-ok { color: #15803d; font-weight: 700; } .p-bad { color: #b91c1c; font-weight: 700; }
-.p-tl .tl rect.d { fill: #e8ebf0; } .p-tl .tl rect.d.stay { fill: #1f3fbf; } .p-tl .tl rect.d.plan { fill: #a9b9ef; }
+.p-tl .tl rect.d { fill: #e8ebf0; } .p-tl .tl rect.d.stay { fill: #1f3fbf; } .p-tl .tl rect.d.plan { fill: #8b5cf6; }
 .p-tl .tl rect.d.reached { fill: #ea580c; } .p-tl .tl rect.d.over { fill: #dc2626; } .p-tl .tl rect.win { fill: #e9eefc; }
 .p-tl .tl line.today { stroke: #0f172a; } .p-tl .tl-today { background: #0f172a; color: #fff; } .p-tl .tl-months { color: #8a93a3; }
 .p-tl .tl-months span { border-left-color: #cfd5df; }
 .p-tl .legend { color: var(--p-muted); }
-.p-tl .sw.stay { background: #1f3fbf; } .p-tl .sw.plan { background: #a9b9ef; } .p-tl .sw.reached { background: #ea580c; } .p-tl .sw.over { background: #dc2626; } .p-tl .sw.win { background: #e9eefc; border-color: #a9b9ef; }
+.p-tl .sw.stay { background: #1f3fbf; } .p-tl .sw.plan { background: #8b5cf6; } .p-tl .sw.reached { background: #ea580c; } .p-tl .sw.over { background: #dc2626; } .p-tl .sw.win { background: #e9eefc; border-color: #a9b9ef; }
 .p-foot { margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--p-line); font-size: 11.5px; color: var(--p-muted); line-height: 1.55; display: flex; gap: 16px; justify-content: space-between; }
 .p-empty { padding: 20px; text-align: center; color: var(--p-muted); border: 1px dashed var(--p-line); border-radius: 10px; }
 @media (max-width: 640px) {
@@ -539,8 +542,8 @@ input[type="date"] { min-width: 0; }
       <div class="topbar-inner">
         <div class="titles"><h1 id="pageTitle"></h1><div class="sub" id="pageSub"></div></div>
         <span class="mode-pill" id="demoPill" hidden>Demo</span>
-        <label class="person-switch"><select id="viewProfile" aria-label="Person"></select></label>
-        <button class="avatar" id="accBtn" aria-haspopup="dialog"></button>
+        <label class="person-switch" translate="no"><select id="viewProfile" class="notranslate" translate="no" aria-label="Person"></select></label>
+        <button class="avatar notranslate" id="accBtn" translate="no" aria-haspopup="dialog"></button>
       </div>
     </header>
 
@@ -606,7 +609,7 @@ input[type="date"] { min-width: 0; }
             <div class="card-head"><div><h2 class="card-title" id="formTitle"></h2><p class="card-sub" data-i18n="formHint"></p></div></div>
             <form id="tripForm" novalidate>
               <div class="fields">
-                <label class="field"><span data-i18n="person"></span><select id="fProfile"></select></label>
+                <label class="field"><span data-i18n="person"></span><select id="fProfile" class="notranslate" translate="no"></select></label>
                 <label class="field"><span data-i18n="country"></span><select id="fCountry"></select></label>
                 <div class="fields two">
                   <label class="field"><span data-i18n="entry"></span><input type="date" id="fStart" min="2000-01-01" max="2100-12-31"></label>
@@ -624,7 +627,7 @@ input[type="date"] { min-width: 0; }
           </div>
           <div class="card">
             <div class="card-head wrap list-head">
-              <div><h2 class="card-title" data-i18n="listTitle"></h2><p class="card-sub" id="listCount"></p></div>
+              <div><h2 class="card-title" data-i18n="listTitle"></h2><p class="card-sub notranslate" id="listCount" translate="no"></p></div>
               <div class="list-tools">
                 <button class="btn btn-secondary btn-sm" id="openReport"><svg class="i sm"><use href="#i-doc"/></svg><span data-i18n="reportBtn"></span></button>
               </div>
@@ -652,7 +655,7 @@ input[type="date"] { min-width: 0; }
             <div class="sel-range" id="selRange"></div>
             <div class="sel-days" id="selDays"></div>
             <div class="fields">
-              <label class="field"><span data-i18n="person"></span><select id="cProfile"></select></label>
+              <label class="field"><span data-i18n="person"></span><select id="cProfile" class="notranslate" translate="no"></select></label>
               <label class="field"><span data-i18n="country"></span><select id="cCountry"></select></label>
               <div id="selPreview"></div>
               <div class="btn-row">
@@ -668,10 +671,10 @@ input[type="date"] { min-width: 0; }
       <section class="panel" id="panel-settings">
         <div class="grid settings-grid">
           <div class="card">
-            <div class="card-head"><div><h2 class="card-title" data-i18n="accountTitle"></h2><p class="card-sub" id="accEmail"></p></div></div>
+            <div class="card-head"><div><h2 class="card-title" data-i18n="accountTitle"></h2><p class="card-sub notranslate" id="accEmail" translate="no"></p></div></div>
             <form class="fields" id="nameForm">
               <label class="field"><span data-i18n="yourName"></span>
-                <div class="inline-form"><input id="myName" autocomplete="name" maxlength="40"><button class="btn btn-secondary" type="submit" data-i18n="save"></button></div>
+                <div class="inline-form"><input id="myName" class="notranslate" translate="no" autocomplete="name" maxlength="40"><button class="btn btn-secondary" type="submit" data-i18n="save"></button></div>
               </label>
             </form>
             <div class="divider"></div>
@@ -695,7 +698,7 @@ input[type="date"] { min-width: 0; }
           </div>
           <div class="card span-2">
             <div class="card-head"><div><h2 class="card-title" data-i18n="peopleTitle"></h2><p class="card-sub" data-i18n="peopleSub"></p></div></div>
-            <div id="peopleList"></div>
+            <div id="peopleList" class="notranslate" translate="no"></div>
             <div class="divider"></div>
             <form class="inline-form" id="addPersonForm">
               <input id="newPersonName" maxlength="40" autocomplete="off">
@@ -732,7 +735,7 @@ input[type="date"] { min-width: 0; }
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="accSheetTitle">
     <div class="grab"></div>
     <div class="sheet-title" id="accSheetTitle" data-i18n="accountsTitle"></div>
-    <div id="accList"></div>
+    <div id="accList" class="notranslate" translate="no"></div>
   </div>
 </div>
 
