@@ -1,7 +1,7 @@
 // Offline-Unterstützung: App-Dateien werden zwischengespeichert.
 // Strategie: zuerst Netzwerk (immer aktuell), ohne Internet aus dem Zwischenspeicher.
 // Anfragen an die Datenbank (Supabase) werden nie zwischengespeichert.
-const CACHE = "s9-v6";
+const CACHE = "s9-v7";
 const SHELL = ["./", "index.html", "app.js", "backend.js", "config.js", "manifest.webmanifest", "icons/icon.svg", "icons/icon-192.png", "icons/apple-touch-icon.png", "i18n/en.js", "i18n/de.js"];
 const CDN = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js";
 
