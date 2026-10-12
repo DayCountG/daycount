@@ -575,16 +575,23 @@ function timelineHtml(st, forPrint) {
   const sd = new Date(from * DAY);
   let y = sd.getUTCFullYear(), m = sd.getUTCMonth() + 1;
   const step = W > 400 ? 2 : 1;
+  // Monatsanfänge sammeln; jedes Label bekommt genau den Platz bis zum nächsten (kein Überlappen)
+  const starts = [];
   for (let i = 0; i < 24; i++) {
     const n = Math.round(Date.UTC(y, m, 1) / DAY);
     if (n > to) break;
-    const pct = (n - from) / W * 100;
-    if (i % step === 0 && pct < 96) months += `<span style="left:${pct}%">${esc(monthName(n, true))}</span>`;
+    if (i % step === 0) starts.push(n);
     m++; if (m > 11) { m = 0; y++; }
   }
+  starts.forEach((n, i) => {
+    const pct = (n - from) / W * 100;
+    const end = i + 1 < starts.length ? (starts[i + 1] - from) / W * 100 : 100;
+    if (end - pct < 6.5) return; // zu wenig Platz (z. B. angeschnittener Monat am Rand) → weglassen
+    months += `<span style="left:${pct}%;width:${end - pct}%">${esc(monthName(n, true))}</span>`;
+  });
   return `<div class="tl-today" style="left:${(WINDOW - 0.5) / W * 100}%">${esc(t.today)}</div>` +
     `<svg viewBox="0 0 ${W} 46" preserveAspectRatio="none" role="img" aria-label="${esc(t.tlTitle)}">${rects}</svg>` +
-    `<div class="tl-months">${months}</div>`;
+    `<div class="tl-months notranslate" translate="no">${months}</div>`;
 }
 
 function stayHtml(s, set, today, withActions) {
@@ -777,7 +784,7 @@ function renderReport() {
   $("paper").innerHTML = `
     <div class="p-head">
       <span class="mark">${icon("i-globe")}</span>
-      <div><h2>${esc(t.rDoc)}</h2><div class="meta">${esc(t.rFor)}: <b style="color:var(--p-text)">${esc(p.name)}</b> · ${esc(t.rPeriod)}: ${esc(rangeLabel)}</div></div>
+      <div><h2>${esc(t.rDoc)}</h2><div class="meta">${esc(t.rFor)}: <b class="notranslate" translate="no" style="color:var(--p-text)">${esc(p.name)}</b> · ${esc(t.rPeriod)}: ${esc(rangeLabel)}</div></div>
       <div class="right">${esc(t.rCreated)}<br><b style="color:var(--p-text)">${esc(fmtW(today))}</b></div>
     </div>
     <div class="p-person">
