@@ -1001,32 +1001,6 @@ function bindEvents() {
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
     toast(T().tExported);
   });
-  $("importBtn").addEventListener("click", () => $("importFile").click());
-  $("importFile").addEventListener("change", async e => {
-    const file = e.target.files[0]; e.target.value = "";
-    if (!file) return;
-    const t = T(), pid = S.viewId, who = viewName();
-    let list;
-    try {
-      if (file.size > 5 * 1024 * 1024) throw 0;
-      const d = JSON.parse(await file.text());
-      list = Array.isArray(d) ? d : d && Array.isArray(d.stays) ? d.stays : d && Array.isArray(d.trips) ? d.trips : null;
-      if (!list) throw 0;
-    } catch (x) { toast(t.tImportErr, "warn"); return; }
-    const have = new Set(staysFor(pid).map(s => `${s.country}|${s.start_date}|${s.end_date || ""}`));
-    const rows = [];
-    for (const r of list) {
-      const start = String(r.start || r.start_date || ""), end = r.end || r.end_date || null;
-      let country = String(r.country || "XX");
-      if (!CODES.includes(country) && country !== "XX") { const i = EN_NAMES.indexOf(country); country = i >= 0 ? CODES[i] : "XX"; }
-      if (validateRange(start, end, !end) || (!end && toNum(start) > todayNum())) continue;
-      const k = `${country}|${start}|${end || ""}`;
-      if (have.has(k)) continue;
-      have.add(k); rows.push({ profile_id: pid, country, start_date: start, end_date: end });
-    }
-    if (!rows.length) { toast(t.tImportNone); return; }
-    await act(async () => { for (const r of rows) await backend.upsertStay(r); }, t.tImported(rows.length, who));
-  });
 
   // Installation
   window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); S.installEvt = e; if (S.data) renderInstall(); });
